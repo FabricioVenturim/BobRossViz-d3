@@ -31,8 +31,8 @@ Certifique-se de ter o Python instalado, pois será necessário para gerar os da
 #### Clone o repositório
 
 ```bash
-https://github.com/FabricioVenturim/BobRossViz-d3.js.git
-cd BobRossViz-d3.js
+git clone https://github.com/FabricioVenturim/BobRossViz-d3.git
+cd BobRossViz-d3
 ```
 
 
