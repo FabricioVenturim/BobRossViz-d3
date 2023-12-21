@@ -1,0 +1,11 @@
+setup.py
+./ccpca.py
+./ccpca_cpp.cpython-310-x86_64-linux-gnu.so
+./cpca.py
+./cpca_cpp.cpython-310-x86_64-linux-gnu.so
+./sample.py
+ccpca.egg-info/PKG-INFO
+ccpca.egg-info/SOURCES.txt
+ccpca.egg-info/dependency_links.txt
+ccpca.egg-info/requires.txt
+ccpca.egg-info/top_level.txt

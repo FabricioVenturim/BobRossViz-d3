@@ -82,6 +82,8 @@ let useCcpca = false;
 // Adicione o ouvinte de evento para o botão
 document.getElementById('ccpca').addEventListener('click', function() {
     useCcpca = changeDatabase(useCcpca, clusterSelect);
+    const button = document.getElementById('ccpca');
+    button.textContent = useCcpca ? 'Run PCA' : 'Run ccPCA';
     update() 
 });
 

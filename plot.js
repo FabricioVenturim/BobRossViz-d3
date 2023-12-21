@@ -85,7 +85,7 @@ export function create_scatterplot(g, projection, xScale, yScale, filteredPoints
     })
 
     .on("mouseout", function () {
-      updateScatterplot(filteredPoints, projection);
+      updateScatterplot(filteredPoints);
       filteredAttribute.length = 0;
       updateBarsText(filteredAttribute);
 
@@ -267,6 +267,7 @@ export function create_y_loading(g, y_loading, loadingScale, attributeScale, ban
   }
 
 export function create_clustering( g, kmeans_data, projection, clusterScale, colorScale, attributeScale, bandwidth, clusterSelect, filteredPoints) {
+    
     const clusters = g
         .selectAll(".cluster")
         .data(kmeans_data)
@@ -286,23 +287,23 @@ export function create_clustering( g, kmeans_data, projection, clusterScale, col
         .attr("r", 8)
         .style("fill", (d) => (clusterSelect.includes(d.label) ? "green" : "gray"))
         .on("click", function (event, d) {
-        const isSelected = clusterSelect.includes(d.label);
-    
-        if (!isSelected) {
-            clusterSelect.push(d.label);
-        } else {
-            const indexToRemove = clusterSelect.indexOf(d.label);
-            if (indexToRemove !== -1) {
-            clusterSelect.splice(indexToRemove, 1);
+            const isSelected = clusterSelect.includes(d.label);
+        
+            if (!isSelected) {
+                clusterSelect.push(d.label);
+            } else {
+                const indexToRemove = clusterSelect.indexOf(d.label);
+                if (indexToRemove !== -1) {
+                clusterSelect.splice(indexToRemove, 1);
+                }
             }
-        }
-    
-        d3.select(this).style("fill", (d) =>
-            clusterSelect.includes(d.label) ? "green" : "gray"
-        );
-    
-        togglePoints(filteredPoints, clusterSelect, kmeans_data);
-        updateScatterplot(filteredPoints, projection);
+        
+            d3.select(this).style("fill", (d) =>
+                clusterSelect.includes(d.label) ? "green" : "gray"
+            );
+        
+            togglePoints(filteredPoints, clusterSelect, kmeans_data);
+            updateScatterplot(filteredPoints);
         });
     
     const attributes = clusters.selectAll(".attribute").data((d) => [d]);
@@ -327,26 +328,21 @@ export function create_clustering( g, kmeans_data, projection, clusterScale, col
     }
 
 
-function updateScatterplot(filteredPoints, projection){
+  function updateScatterplot(filteredPoints) {
+    // Criar um conjunto de IDs para pesquisa eficiente
+    const filteredSet = new Set(filteredPoints);
+  
     d3.selectAll("circle.scatterplot-circle")
       .style("fill", (d) => {
-        // Verifique se o ponto está no array filteredPoints
-        return filteredPoints.some(
-          (id) => projection[id][0] === d[0] && projection[id][1] === d[1]
-        )
-          ? "green"
-          : "black";
+        // Verificar se o ID do ponto está presente no conjunto filteredSet
+        return filteredSet.has(d[2]) ? "green" : "black";
       })
       .style("fill-opacity", (d) => {
-        // Verifique se o ponto está no array filteredPoints
-        return filteredPoints.some(
-          (id) => projection[id][0] === d[0] && projection[id][1] === d[1]
-        )
-          ? "0.7"
-          : "0.2";
+        // Verificar se o ID do ponto está presente no conjunto filteredSet
+        return filteredSet.has(d[2]) ? "0.7" : "0.2";
       });
   }
-
+    
 
 function togglePoints(filteredPoints, clusterSelect, kmeans_data) {
     // Clear the existing content of filteredPoints array
@@ -355,7 +351,7 @@ function togglePoints(filteredPoints, clusterSelect, kmeans_data) {
     // Use each to iterate over kmeans_data and add corresponding points
     kmeans_data.forEach((point) => {
       // Alteração: Verifica se o label está presente no array clusterSelect
-      if (clusterSelect.includes(point.label)) {
+      if (clusterSelect.includes(point.label) && !filteredPoints.includes(point.id) ) {
         filteredPoints.push(point.id);
       }
     });

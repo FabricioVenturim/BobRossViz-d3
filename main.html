@@ -17,10 +17,16 @@
                 <li><strong>Divergent Bar Plot for PCA Loadings:</strong> Displays two bars for each attribute, one for each principal component, showing the loadings. Divergent bars indicate the direction (positive/negative) of the loading.</li>
                 <li><strong>Cluster Heatmap:</strong> Visualizes k-means results with attribute labels on the Y-axis, landform feature names on the X-axis, and colors representing the sum of attribute values for a given label and attribute combination.</li>
             </ol>
+        <p id="note" style="text-align: center; margin-top: 30px; color: red;">Note: To generate the data and create the chart, you need to run the <code>server.py</code> file.</p>
+        
+        <p>To run ccPCA, you must select only one cluster (by clicking on the circles next to the heatmap).</p>
+
+
         <button id="ccpca">Run ccPCA</button>
-        <div id="chart-container">
+        <div id="chart-container">  
             
         </div>
+
     </div>
 
     <p id="foot">Site production by <a href="https://github.com/FabricioVenturim" target="_blank">Fabrício Venturim</a></p>
@@ -28,7 +34,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script type="module" src="script.js"></script>
-    <!-- Add your custom JavaScript for interactions here -->
+   
 
 </body>
 </html>
