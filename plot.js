@@ -13,11 +13,9 @@ export function create_scatterplot(g, projection, xScale, yScale, filteredPoints
       (update) =>
         update
           .transition()
-          .duration(10000)
-          .attr("cx", (d) => d[2])
-          .attr("cy", (d) => d[2])
-          .style("fill-opacity", 1)
-          .attr("data-identifier", (d) => d[2]),
+          .duration(1000)
+          .attr("cx", (d) => xScale(d[0]))
+          .attr("cy", (d) => yScale(d[1])),
       (exit) => exit.remove()
     )
     .style("fill", (d) =>
@@ -101,15 +99,28 @@ export function create_scatterplot(g, projection, xScale, yScale, filteredPoints
     .attr("class", "tooltip")
     .style("display", "none");
 
-  // Create axes from our scales
   const xAxis = d3.axisTop(xScale).ticks(6);
   const yAxis = d3.axisLeft(yScale).ticks(6);
+  
+  g.append("g")
+    .attr("id", "y-axis")
 
-  // Adiciona eixo x no topo
-  g.append("g").call(xAxis);
+  // animate the y axis
+  g.select("#y-axis")
+    .transition()
+    .duration(1000)
+    .call(yAxis);  
 
-  // Adiciona eixo y
-  g.append("g").call(yAxis);
+  g.append("g")
+    .attr("id", "x-axis")
+
+  // animate the x axis
+
+  g.select("#x-axis")
+    .transition()
+    .duration(1000)
+    .call(xAxis);
+    
 }
 
 export function create_x_loading(g, x_loading, loadingScale, attributeScale, bandwidth, attributes, loading_size, plot_size) {
@@ -136,16 +147,32 @@ export function create_x_loading(g, x_loading, loadingScale, attributeScale, ban
     const bars = g
         .selectAll(".x-loading-bar")
         .data(x_loading)
-        .enter()
-        .append("rect")
-        .attr("class", "x-loading-bar")
-        .attr("x", (d) => attributeScale(d.attribute))
-        .attr("y", loading_size)
-        .attr("width", bandwidth)
-        .attr("height", 0) // Inicialmente, a altura é zero
-        .attr("fill", (d) => (d.loading < 0 ? "#AD7476" : "#488E9F"))
-        .attr("y", y) // A altura final (y) conforme calculado em sua função `y`
-        .attr("height", height); // A altura final (height) conforme calculado em sua função `height`
+        .join(
+          (enter) =>
+            enter
+              .append("rect")
+              .attr("class", "x-loading-bar")
+              .attr("x", (d) => attributeScale(d.attribute))
+              .attr("y", loading_size)
+              .attr("width", bandwidth)
+              .attr("height", 0) // Inicialmente, a altura é zero
+              .attr("fill", (d) => (d.loading < 0 ? "#AD7476" : "#488E9F"))
+              .attr("y", y) // A altura final (y) conforme calculado em sua função `y`
+              .attr("height", height), // A altura final (height) conforme calculado em sua função `height`
+          (update) =>
+            update
+              .transition()
+              .duration(1000)
+              .attr("x", (d) => attributeScale(d.attribute))
+              .attr("y", loading_size)
+              .attr("width", bandwidth)
+              .attr("height", 0) // Inicialmente, a altura é zero
+              .attr("fill", (d) => (d.loading < 0 ? "#AD7476" : "#488E9F"))
+              .attr("y", y) // A altura final (y) conforme calculado em sua função `y`
+              .attr("height", height), // A altura final (height) conforme calculado em sua função `height`
+          (exit) => exit.remove()
+        );
+        
 
     const barsText = g
         .selectAll(".x-loading-barsText")
@@ -199,15 +226,28 @@ export function create_y_loading(g, y_loading, loadingScale, attributeScale, ban
         : loadingScale(d.loading) - loading_size / 2;
   
     const bars = g
-      .selectAll("rect")
+      .selectAll(".y-loading-bar")
       .data(y_loading)
-      .enter()
-      .append("rect")
-      .attr("x", x)
-      .attr("width", width)
-      .attr("y", (d) => attributeScale(d.attribute))
-      .attr("height", bandwidth)
-      .attr("fill", (d) => (d.loading < 0 ? "#AD7476" : "#488E9F"));
+      .join(
+        (enter) =>
+          enter
+            .append("rect")
+            .attr("class", "y-loading-bar")
+            .attr("x", x)
+            .attr("width", width)
+            .attr("y", (d) => attributeScale(d.attribute))
+            .attr("height", bandwidth)
+            .attr("fill", (d) => (d.loading < 0 ? "#AD7476" : "#488E9F")),
+        (update) =>
+          update
+            .transition()
+            .duration(1000)
+            .attr("x", x)
+            .attr("width", width)
+            .attr("height", bandwidth)
+            .attr("fill", (d) => (d.loading < 0 ? "#AD7476" : "#488E9F")),
+        (exit) => exit.remove()
+      );
   
     // create a text label for each attribute name, can be accomplished via data join on `attribute_names`, requires specifying a transform that translates the bar
     const labels = g
@@ -238,7 +278,6 @@ export function create_clustering( g, kmeans_data, projection, clusterScale, col
         (d) => `translate(0, ${clusterScale(d.label)})`
         );
         
-
     const circles = clusters
         .append("circle")
         .attr("class", "cluster-circle")

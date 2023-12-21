@@ -3,15 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Observable to HTML</title>
-    <style>
-        /* Adicione seus estilos aqui, se necessário */
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <title>Data Visualization Assignment</title>
 </head>
 <body>
+
+    <div id="container">
+        <h1>Data Visualization Assignment</h1>
+        <p>This project involves creating visualizations using D3, based on data resulting from dimensionality reduction and clustering applied to descriptions of Bob Ross paintings. Each entry in the dataset represents an individual painting, with binary attributes (0 or 1) indicating the presence of specific terrain features, whether natural or man-made. These attributes are extracted from Bob Ross's painting descriptions and are visually explored through techniques like Principal Component Analysis (PCA) and k-means.</p>
+        <p>The visualizations include:</p>
+            <ol>
+                <li><strong>PCA Scatter Plot:</strong> Shows the 2D projection of data after PCA. X-axis represents the first principal component, and the Y-axis represents the second principal component.</li>
+                <li><strong>Divergent Bar Plot for PCA Loadings:</strong> Displays two bars for each attribute, one for each principal component, showing the loadings. Divergent bars indicate the direction (positive/negative) of the loading.</li>
+                <li><strong>Cluster Heatmap:</strong> Visualizes k-means results with attribute labels on the Y-axis, landform feature names on the X-axis, and colors representing the sum of attribute values for a given label and attribute combination.</li>
+            </ol>
+        <button id="ccpca">Run ccPCA</button>
+        <div id="chart-container">
+            
+        </div>
+    </div>
+
+    <p id="foot">Site production by <a href="https://github.com/FabricioVenturim" target="_blank">Fabrício Venturim</a></p>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script type="module" src="script.js"></script>
+    <!-- Add your custom JavaScript for interactions here -->
+
 </body>
 </html>
