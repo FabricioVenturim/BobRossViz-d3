@@ -1,5 +1,7 @@
 # Projeto de Visualização de Dados
 
+[Link do site](https://fabricioventurim.github.io/BobRossViz-d3/)
+
 Este projeto envolve a criação de visualizações usando D3 com base em dados resultantes de redução de dimensionalidade e agrupamento aplicados a descrições de pinturas de Bob Ross. Cada entrada no conjunto de dados representa uma pintura individual, com atributos binários (0 ou 1) indicando a presença de características específicas do terreno, naturais ou feitas pelo homem. Esses atributos são extraídos das descrições de pinturas de Bob Ross e são visualmente explorados por meio de técnicas como Análise de Componentes Principais (PCA) e k-means.
 
 [Gravação de tela de 21-12-2023 14:06:52.webm](https://github.com/FabricioVenturim/BobRossViz-d3/assets/86852019/23bda1cd-890d-4674-83cc-3c50b2da2e0a)
